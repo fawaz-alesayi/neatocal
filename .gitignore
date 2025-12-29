@@ -53,3 +53,8 @@ dkms.conf
 
 *~
 *.swp
+
+# Cloudflare deployment
+wrangler.jsonc
+public/
+
