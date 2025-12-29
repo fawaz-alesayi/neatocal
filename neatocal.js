@@ -72,9 +72,9 @@ var NEATOCAL_PARAM = {
 
   // year to start
   //
-  //   default this year
+  //   default 2026
   //
-  "year": new Date().getFullYear(),
+  "year": 2026,
 
   // Text to use for displaying weekdays (Arabic default)
   //
@@ -612,7 +612,7 @@ function neatocal_init() {
 
   //---
 
-  let year = new Date().getFullYear();
+  let year = 2026;
   if ((year_param != null) &&
       (typeof year_param !== "undefined")) {
     year = year_param;
