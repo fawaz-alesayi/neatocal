@@ -1,3 +1,7 @@
+@import url(https://fonts.bunny.net/css?family=cairo:300,400,500,600);
+
+/* Oswald - Latin font (local files) */
+/* Cairo - Arabic font loaded from Bunny Fonts (privacy-friendly) */
 @font-face {
   font-family: 'Oswald';
   font-style: normal;

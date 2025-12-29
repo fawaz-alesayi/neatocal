@@ -23,13 +23,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 --><!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>Neato Calendar</title>
+<title>تقويم نيتو</title>
 
-<meta property="og:title" content="Neat Calendar">
-<meta property="og:description" content="A simple printable calendar with the full year on a single page">
+<meta property="og:title" content="تقويم نيتو">
+<meta property="og:description" content="تقويم بسيط قابل للطباعة يعرض السنة كاملة في صفحة واحدة">
 
 <link rel='stylesheet' href='css/Oswald.css'>
 
@@ -40,43 +40,89 @@ SOFTWARE.
 
 <body>
 
-  <!-- INFO -->
+  <!-- OVERLAY -->
+  <div id="ui_overlay">
+    <div class="overlay-content">
+      <div class="overlay-close" onclick="closeOverlay()">✕</div>
+
+      <h1>👋</h1>
+
+      <p>
+        عند طباعة هذه الصفحة، ستحصل على تقويم يعرض السنة كاملة في صفحة واحدة.
+        يتناسب مع أي حجم ورق. لنتيجة أفضل، اطبع بالوضع الأفقي وأزل الرأس والذيل.
+      </p>
+
+      <p>
+        اطوِها واحملها معك. دوّن ملاحظاتك عليها. خطط وراقب مرور الوقت.
+      </p>
+
+      <div class="overlay-controls">
+        <div class="control-group">
+          <label>السنة</label>
+          <div class="year-selector">
+            <button onclick="changeYear(-1)">−</button>
+            <span id="year-display">٢٠٢٥</span>
+            <button onclick="changeYear(1)">+</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>الأشهر</label>
+          <div class="calendar-toggle">
+            <button id="btn-gregorian" class="active" onclick="setCalendarType('gregorian')">ميلادي</button>
+            <button id="btn-assyrian" onclick="setCalendarType('assyrian')">سرياني</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="overlay-print" onclick="closeOverlay()">عرض التقويم</button>
+
+      <p class="overlay-footer">
+        <a href="https://neatnik.net/" target="_blank">Neatnik</a> ·
+        <a href="https://github.com/fawaz-alesayi/neatocal" target="_blank">المصدر</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- INFO (legacy) -->
 
   <div id="ui_info" style='display:none;'>
-    <p> If you print this page, you’ll get a nifty calendar that displays
-        all of the year’s dates on a single page. It will automatically
-        fit on a single sheet of paper of any size. For best results,
-        adjust your print settings to landscape orientation and disable
-        the header and footer.
+    <p> عند طباعة هذه الصفحة، ستحصل على تقويم أنيق يعرض
+        جميع تواريخ السنة في صفحة واحدة. سيتناسب تلقائياً
+        مع أي حجم ورق. للحصول على أفضل النتائج،
+        اضبط إعدادات الطباعة على الوضع الأفقي وقم بتعطيل
+        الرأس والذيل.
     </p>
 
-    <p> Take in the year all at once. Fold it up and carry it with you.
-        Jot down your notes on it. Plan things out and observe the
-        passage of time. Above all else, be kind to others.
+    <p> استوعب السنة كاملة دفعة واحدة. اطوها واحملها معك.
+        دوّن ملاحظاتك عليها. خطط لأمورك وراقب مرور الوقت.
+        وفوق كل شيء، كن لطيفاً مع الآخرين.
     </p>
 
-    <p> You can addin URL parameters to change the year, display style, start month, etc.
+    <p> يمكنك إضافة معلمات في الرابط لتغيير السنة، نمط العرض، شهر البداية، إلخ.
 
     <ul>
-      <li> year </li>
-      <li> start_month  </li>
-      <li> n_month </li>
-      <li> layout (`default` or `aligned-weekdays`)</li>
-      <li> start_day (only valid with aligned-weekdays layout)</li>
-      <li> highlight_color </li>
-      <li> weekday_code </li>
-      <li> month_code </li>
-      <li> help </li>
+      <li> year (السنة) </li>
+      <li> start_month (شهر البداية) </li>
+      <li> n_month (عدد الأشهر) </li>
+      <li> layout (التخطيط: `default` أو `aligned-weekdays`)</li>
+      <li> start_day (يوم البداية، صالح فقط مع تخطيط aligned-weekdays)</li>
+      <li> highlight_color (لون التمييز) </li>
+      <li> weekday_code (رموز أيام الأسبوع) </li>
+      <li> month_code (رموز الأشهر) </li>
+      <li> rtl (اتجاه من اليمين لليسار: true أو false) </li>
+      <li> weekend_days (أيام العطلة: مثال `5,6` للجمعة والسبت) </li>
+      <li> help (المساعدة) </li>
     </ul>
 
-    For example <a href='?year=2030'>`?year=2030`</a>
+    مثال: <a href='?year=2030'>`?year=2030`</a>
 
     </p>
 
     <p style="font-size: 80%; color: #999;">
-      <a href="https://github.com/abetusk/neatocal">Source code</a></p>
-    <p style="font-size: 80%; color: #999;">Based on <a href="https://neatnik.net/">Neatnik's</a> &#183;
-      original <a href="https://github.com/neatnik/calendar">source code</a></p>
+      <a href="https://github.com/fawaz-alesayi/neatocal">الكود المصدري</a></p>
+    <p style="font-size: 80%; color: #999;">مبني على عمل <a href="https://neatnik.net/">Neatnik</a> &#183;
+      <a href="https://github.com/neatnik/calendar">الكود الأصلي</a></p>
   </div>
 
   <!-- INFO -->
@@ -90,18 +136,18 @@ SOFTWARE.
   <table id='ui_table'>
     <thead id='ui_thead'>
       <tr id='ui_tr_month_name'>
-        <th>Jan</th>
-        <th>Feb</th>
-        <th>Mar</th>
-        <th>Apr</th>
-        <th>May</th>
-        <th>Jun</th>
-        <th>Jul</th>
-        <th>Aug</th>
-        <th>Sep</th>
-        <th>Oct</th>
-        <th>Nov</th>
-        <th>Dec</th>
+        <th>يناير</th>
+        <th>فبراير</th>
+        <th>مارس</th>
+        <th>أبريل</th>
+        <th>مايو</th>
+        <th>يونيو</th>
+        <th>يوليو</th>
+        <th>أغسطس</th>
+        <th>سبتمبر</th>
+        <th>أكتوبر</th>
+        <th>نوفمبر</th>
+        <th>ديسمبر</th>
       </tr>
     </thead>
 

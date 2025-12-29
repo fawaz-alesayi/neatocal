@@ -31,10 +31,13 @@ SOFTWARE.
   #ui_info {
     display: none;
   }
+  #ui_overlay {
+    display: none !important;
+  }
 }
 
 html {
-	font-family: 'Oswald';
+	font-family: 'Cairo', 'Oswald', sans-serif;
 }
 html, body {
 	height: 100%;
@@ -106,5 +109,182 @@ p {
 }
 #ui_info a {
 	color: inherit;
+}
+
+/* RTL Support */
+[dir="rtl"] table {
+	direction: rtl;
+}
+[dir="rtl"] td {
+	text-align: right;
+}
+[dir="rtl"] th {
+	text-align: center;
+}
+[dir="rtl"] .date {
+	display: inline-block;
+	min-width: 1.5em;
+	text-align: right;
+}
+[dir="rtl"] .day {
+	display: inline-block;
+	margin-right: 0.4em;
+	text-align: right;
+}
+
+/* Overlay UI */
+#ui_overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.85);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
+
+.overlay-content {
+	background: #fff;
+	padding: 2.5em 3em;
+	border-radius: 1em;
+	max-width: 420px;
+	text-align: center;
+	position: relative;
+	font-family: 'Cairo', sans-serif;
+}
+
+.overlay-content h1 {
+	font-size: 3em;
+	margin: 0 0 0.3em 0;
+}
+
+.overlay-content p {
+	font-size: 1.1em;
+	line-height: 1.6;
+	color: #333;
+	margin: 0 0 1em 0;
+	text-align: right;
+}
+
+.overlay-close {
+	position: absolute;
+	top: 0.8em;
+	left: 0.8em;
+	font-size: 1.2em;
+	cursor: pointer;
+	color: #999;
+	width: 1.5em;
+	height: 1.5em;
+	line-height: 1.5em;
+	text-align: center;
+	border-radius: 50%;
+}
+.overlay-close:hover {
+	background: #eee;
+	color: #333;
+}
+
+.overlay-controls {
+	display: flex;
+	gap: 1.5em;
+	justify-content: center;
+	margin: 1.5em 0;
+	flex-wrap: wrap;
+}
+
+.control-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+}
+
+.control-group label {
+	font-size: 0.85em;
+	color: #666;
+}
+
+.year-selector {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.year-selector button {
+	width: 2.2em;
+	height: 2.2em;
+	border: 1px solid #ddd;
+	background: #fff;
+	border-radius: 0.4em;
+	font-size: 1.2em;
+	cursor: pointer;
+	color: #333;
+}
+.year-selector button:hover {
+	background: #f5f5f5;
+}
+
+.year-selector span {
+	font-size: 1.3em;
+	font-weight: 500;
+	min-width: 3.5em;
+}
+
+.calendar-toggle {
+	display: flex;
+	border: 1px solid #ddd;
+	border-radius: 0.4em;
+	overflow: hidden;
+}
+
+.calendar-toggle button {
+	padding: 0.5em 1em;
+	border: none;
+	background: #fff;
+	cursor: pointer;
+	font-size: 0.95em;
+	font-family: inherit;
+	color: #666;
+}
+.calendar-toggle button:first-child {
+	border-left: 1px solid #ddd;
+}
+.calendar-toggle button.active {
+	background: #333;
+	color: #fff;
+}
+.calendar-toggle button:hover:not(.active) {
+	background: #f5f5f5;
+}
+
+.overlay-print {
+	background: #333;
+	color: #fff;
+	border: none;
+	padding: 0.8em 2em;
+	font-size: 1.1em;
+	border-radius: 0.5em;
+	cursor: pointer;
+	font-family: inherit;
+	margin-top: 0.5em;
+}
+.overlay-print:hover {
+	background: #444;
+}
+
+.overlay-footer {
+	margin-top: 1.5em !important;
+	font-size: 0.85em !important;
+	color: #999 !important;
+	text-align: center !important;
+}
+.overlay-footer a {
+	color: #666;
+	text-decoration: none;
+}
+.overlay-footer a:hover {
+	text-decoration: underline;
 }
 

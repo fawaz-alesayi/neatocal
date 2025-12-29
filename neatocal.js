@@ -54,16 +54,21 @@ var NEATOCAL_PARAM = {
 
   // for aligned-weekdays, which day to start (0 indexed)
   //
-  //   Monday (1) default
+  //   Sunday (0) default for Arabic calendar
   //
-  "start_day": 1,
+  "start_day": 0,
 
-  // calendar format
-  // 
-  //   default
-  //   aligned-weekdays
+  // calendar layout
   //
-  "format": "default",
+  //   default (all months start from row 1)
+  //   aligned-weekdays (weekdays aligned horizontally)
+  //
+  "layout": "default",
+
+  // weekend days (0=Sun, 1=Mon, ..., 5=Fri, 6=Sat)
+  // Default: Friday (5) and Saturday (6) for Arabic calendar
+  //
+  "weekend_days": [5, 6],
 
   // year to start
   //
@@ -71,16 +76,32 @@ var NEATOCAL_PARAM = {
   //
   "year": new Date().getFullYear(),
 
-  // Text to use for displaying weekdays
+  // Text to use for displaying weekdays (Arabic default)
   //
-  "weekday_code" : [ "Su", "M", "T", "W", "R", "F", "Sa"  ],
+  "weekday_code" : [ "أحد", "إثن", "ثلا", "أرب", "خمي", "جمع", "سبت"  ],
 
-  // text to sue for month header
+  // text to use for month header (Arabic default)
   //
-  "month_code": [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+  "month_code": [ "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر" ],
 
-  // 
-  "language" : "",
+  // Assyrian/Syriac month names (Levantine)
+  //
+  "month_code_assyrian": [ "كانون الثاني", "شباط", "آذار", "نيسان", "أيار", "حزيران", "تموز", "آب", "أيلول", "تشرين الأول", "تشرين الثاني", "كانون الأول" ],
+
+  // Gregorian month names (for switching back)
+  //
+  "month_code_gregorian": [ "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر" ],
+
+  // Current calendar type
+  //
+  "calendar_type": "gregorian",
+
+  // RTL direction (Arabic default)
+  //
+  "rtl": true,
+
+  //
+  "language" : "ar",
 
   // start month (0 indexed)
   //
@@ -97,6 +118,13 @@ var NEATOCAL_PARAM = {
   "highlight_color": '#eee'
 
 };
+
+// Convert Western numerals to Arabic-Indic numerals
+//
+function toArabicNumerals(num) {
+  const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return num.toString().replace(/[0-9]/g, d => arabicNumerals[d]);
+}
 
 // simple HTML convenience functions
 //
@@ -217,7 +245,8 @@ function neatocal_hallon_almanackan() {
         }
 
 
-        let span_date = H.span((idx+1).toString(), "date");
+        let dateStr = NEATOCAL_PARAM.rtl ? toArabicNumerals(idx+1) : (idx+1).toString();
+        let span_date = H.span(dateStr, "date");
         let span_day = H.span(d, "day");
 
         if (dt.getDay() == 0) {
@@ -225,13 +254,13 @@ function neatocal_hallon_almanackan() {
           span_day.style.color = "rgb(230,37,7)";
         }
 
-
         td.appendChild( span_date );
         td.appendChild( span_day );
 
         if (dt.getDay() == 1) {
-          let span_week_no = H.span(day_week_no[cur_mo][idx], "date");
-          span_week_no.style.float = "right";
+          let weekNoStr = NEATOCAL_PARAM.rtl ? toArabicNumerals(day_week_no[cur_mo][idx]) : day_week_no[cur_mo][idx];
+          let span_week_no = H.span(weekNoStr, "date");
+          span_week_no.style.float = NEATOCAL_PARAM.rtl ? "left" : "right";
           span_week_no.style.color = "rgb(230,37,7)";
           td.appendChild(span_week_no);
         }
@@ -299,14 +328,14 @@ function neatocal_default() {
 
         let d = NEATOCAL_PARAM.weekday_code[ dt.getDay() ];
 
-        //if (d[0] == "S") { td.classList.add("weekend"); }
-        if ((dt.getDay() == 0) ||
-            (dt.getDay() == 6)) {
+        // Check if day is a weekend day
+        if (NEATOCAL_PARAM.weekend_days.includes(dt.getDay())) {
           td.classList.add("weekend");
         }
 
 
-        let span_date = H.span((idx+1).toString(), "date");
+        let dateStr = NEATOCAL_PARAM.rtl ? toArabicNumerals(idx+1) : (idx+1).toString();
+        let span_date = H.span(dateStr, "date");
         let span_day = H.span(d, "day");
 
         td.appendChild( span_date );
@@ -415,10 +444,8 @@ function neatocal_aligned_weekdays() {
 
         let wd_code = NEATOCAL_PARAM.weekday_code[ dt.getDay() ];
 
-        // If it's a weekend (Su,Sa), add the 'weekend' class to allow for highlighting
-        //
-        if ((dt.getDay() == 0) ||
-            (dt.getDay() == 6)) {
+        // Check if day is a weekend day
+        if (NEATOCAL_PARAM.weekend_days.includes(dt.getDay())) {
           td.classList.add("weekend");
         }
 
@@ -426,7 +453,8 @@ function neatocal_aligned_weekdays() {
         // date - day in month
         // day  - name of weekday (e.g. Su,M,T,W,R,F,Sa)
         //
-        let span_date = H.span((day_idx+1).toString(), "date");
+        let dateStr = NEATOCAL_PARAM.rtl ? toArabicNumerals(day_idx+1) : (day_idx+1).toString();
+        let span_date = H.span(dateStr, "date");
         let span_day = H.span(wd_code, "day");
 
         td.appendChild( span_date );
@@ -491,7 +519,7 @@ function neatocal_override_param(param, data) {
   let admissible_param = [
     "year", "start_month", "n_month", "layout",
     "start_day", "highlight_color", "weekday_code", "month_code",
-    "cell_height", "language", "help"
+    "cell_height", "language", "help", "rtl", "weekend_days"
   ];
 
   for (let idx = 0; idx < admissible_param.length; idx++) {
@@ -560,6 +588,8 @@ function neatocal_init() {
   let weekday_code_param = sp.get("weekday_code");
   let month_code_param = sp.get("month_code");
   let language_param = sp.get("language");
+  let rtl_param = sp.get("rtl");
+  let weekend_days_param = sp.get("weekend_days");
 
   let datafn_param = sp.get("data");
 
@@ -661,6 +691,28 @@ function neatocal_init() {
 
   //---
 
+  // RTL direction handling
+  //
+  let rtl = NEATOCAL_PARAM.rtl;
+  if ((rtl_param != null) &&
+      (typeof rtl_param !== "undefined")) {
+    rtl = (rtl_param === "true" || rtl_param === "1");
+  }
+  NEATOCAL_PARAM.rtl = rtl;
+
+  //---
+
+  // weekend days handling (comma-separated list of day indices)
+  // e.g., "5,6" for Friday-Saturday or "0,6" for Saturday-Sunday
+  //
+  if ((weekend_days_param != null) &&
+      (typeof weekend_days_param !== "undefined")) {
+    let days = weekend_days_param.split(",").map(d => parseInt(d.trim()));
+    NEATOCAL_PARAM.weekend_days = days.filter(d => !isNaN(d) && d >= 0 && d <= 6);
+  }
+
+  //---
+
   // language fills out the month/day codes and happens
   // before so it can be overriden by month day code
   // specification.
@@ -729,6 +781,16 @@ function neatocal_init() {
 
 function neatocal_render() {
 
+  // Apply RTL direction
+  //
+  if (NEATOCAL_PARAM.rtl) {
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.setAttribute('lang', 'ar');
+  } else {
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+  }
+
   let cur_start_month = NEATOCAL_PARAM.start_month;
   let month_remain = NEATOCAL_PARAM.n_month;
   let s_year = parseInt(NEATOCAL_PARAM.year);
@@ -760,7 +822,7 @@ function neatocal_render() {
 
   for ( let y = s_year, idx = 0; y <= e_year; y++, idx++) {
     let span = H.span();
-    span.innerHTML = y.toString();
+    span.innerHTML = NEATOCAL_PARAM.rtl ? toArabicNumerals(y) : y.toString();
     span.style["display"] = "inline-block";
     span.style["width"] = (100*year_fraction[idx]).toString() + "%";
     span.style["justify-content"] = "center";
@@ -784,4 +846,57 @@ function neatocal_render() {
 
   neatocal_post_process();
 }
+
+// ============================================
+// UI Overlay Controls
+// ============================================
+
+function closeOverlay() {
+  document.getElementById('ui_overlay').style.display = 'none';
+}
+
+function showOverlay() {
+  document.getElementById('ui_overlay').style.display = 'flex';
+}
+
+function updateYearDisplay() {
+  let displayYear = NEATOCAL_PARAM.rtl ? toArabicNumerals(NEATOCAL_PARAM.year) : NEATOCAL_PARAM.year.toString();
+  document.getElementById('year-display').textContent = displayYear;
+}
+
+function changeYear(delta) {
+  NEATOCAL_PARAM.year = parseInt(NEATOCAL_PARAM.year) + delta;
+  updateYearDisplay();
+  rerenderCalendar();
+}
+
+function setCalendarType(type) {
+  NEATOCAL_PARAM.calendar_type = type;
+
+  // Update button states
+  document.getElementById('btn-gregorian').classList.toggle('active', type === 'gregorian');
+  document.getElementById('btn-assyrian').classList.toggle('active', type === 'assyrian');
+
+  // Update month codes
+  if (type === 'assyrian') {
+    NEATOCAL_PARAM.month_code = NEATOCAL_PARAM.month_code_assyrian.slice();
+  } else {
+    NEATOCAL_PARAM.month_code = NEATOCAL_PARAM.month_code_gregorian.slice();
+  }
+
+  rerenderCalendar();
+}
+
+function rerenderCalendar() {
+  // Clear existing calendar
+  document.getElementById('ui_tbody').innerHTML = '';
+
+  // Re-render
+  neatocal_render();
+}
+
+// Initialize overlay year display after DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+  updateYearDisplay();
+});
 
