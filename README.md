@@ -1,111 +1,50 @@
-NeatoCal
-===
+# NeatoCal - Arabic Edition
 
-A neato calendar with the full year on a single page.
+A printable calendar with the full year on a single page, with Arabic localization.
 
-Based on the very awesome [Neatnik's Calendar](https://neatnik.net/dispenser/?project=calendar) project.
+Based on [abetusk/neatocal](https://github.com/abetusk/neatocal), which is based on [Neatnik's Calendar](https://neatnik.net/dispenser/?project=calendar).
 
-This is a JavaScript port with added parameters (see below) and designed to be "dependency free" with all files local.
+**Live demo**: [calendar.accelerate.sa](https://calendar.accelerate.sa)
 
-Here's a [live demo](https://abetusk.github.io/neatocal).
+## Features
 
-Screenshots
----
+- RTL (right-to-left) layout
+- Arabic-Indic numerals (١٢٣٤٥٦٧٨٩٠)
+- Arabic month names and weekday abbreviations
+- Friday-Saturday weekend highlighting (default)
+- Syriac/Assyrian month names option (كانون، شباط، آذار...)
+- UI overlay for year selection and calendar type
+
+## Screenshots
 
 ![default](img/neatocal_default.png)
 
 ![aligned](img/neatocal_align.png)
 
-Parameters
----
+## Parameters
 
 | URL Parameter | Description | Example |
 |---|---|---|
-| `year` | Change year (default to current year) | [...?year=2030](https://abetusk.github.io/neatocal?year=2030) |
-| `start_month` | Start at month other than January. 0 indexed (`0`=Jan, `1`=Feb, ...).  | [...?start_month=7](https://abetusk.github.io/neatocal?start_month=7) |
-| `n_month` | Change number of months to something other than 12 (default `12`).  | [...?n_month=6](https://abetusk.github.io/neatocal?n_month=6) |
-| `layout` | Changes the layout of the calendar. `default` or `aligned-weekdays`.  | [...?layout=aligned-weekdays](https://abetusk.github.io/neatocal?layout=aligned-weekdays) |
-| `start_day` | Start at day other than Monday. 0 indexed (`0`=Sun, `1`=Mon, ...). Only valid with `aligned-weekdays` layout  | [...?layout=aligned-weekdays&start_day=0](https://abetusk.github.io/neatocal?layout=aligned-weekdays&start_day=0) |
-| `highlight_color` | Change the weekend highlight color (default `eee`) | [...?highlight_color=fee](https://abetusk.github.io/neatocal?highlight_color=fee) |
-| `language` | Change the language for month and day codes. Values will be overridden if `month_code` or `language_code` is specified. | [...?language=ko-KR](https://abetusk.github.io/neatocal?language=ko-KR) |
-| `weekday_code` | Comma separated list of weekday codes to use (default `Su,M,T,W,R,F,Sa`). Elements can be blank if no weekday code is wanted. | [...?weekday_code=S,M,T,W,T,F,S](https://abetusk.github.io/neatocal?weekday_code=S,M,T,W,T,F,S) |
-| `month_code` | Comma separated list of month codes to use (default `Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec`). Elements can be blank if no month code is wanted. | [...?month_code=J,F,M,A,M,J,J,A,S,O,N,D](https://abetusk.github.io/neatocal?month_code=J,F,M,A,M,J,J,A,S,O,N,D) |
-| `cell_height` | CSS parameter to alter cell height. | [...?cell_height=1.5em](https://abetusk.github.io/neatocal?cell_height=1.5em) |
-| `data` | Location of JSON data file. | [...?data=example/data.json](https://abetusk.github.io/neatocal?data=example/data.json) |
-| `help` | Show help screen  | [...?help](https://abetusk.github.io/neatocal?help) |
+| `year` | Change year (default to current year) | [...?year=2030](https://calendar.accelerate.sa?year=2030) |
+| `start_month` | Start at month other than January. 0 indexed (`0`=Jan, `1`=Feb, ...).  | [...?start_month=7](https://calendar.accelerate.sa?start_month=7) |
+| `n_month` | Change number of months to something other than 12 (default `12`).  | [...?n_month=6](https://calendar.accelerate.sa?n_month=6) |
+| `layout` | Changes the layout of the calendar. `default` or `aligned-weekdays`.  | [...?layout=aligned-weekdays](https://calendar.accelerate.sa?layout=aligned-weekdays) |
+| `start_day` | Start at day other than Sunday. 0 indexed (`0`=Sun, `1`=Mon, ...). Only valid with `aligned-weekdays` layout  | [...?layout=aligned-weekdays&start_day=1](https://calendar.accelerate.sa?layout=aligned-weekdays&start_day=1) |
+| `highlight_color` | Change the weekend highlight color (default `eee`) | [...?highlight_color=fee](https://calendar.accelerate.sa?highlight_color=fee) |
+| `weekend_days` | Comma separated weekend days. 0 indexed (`0`=Sun, `5`=Fri, `6`=Sat). Default `5,6` | [...?weekend_days=0,6](https://calendar.accelerate.sa?weekend_days=0,6) |
+| `rtl` | Enable RTL layout (`true` or `false`). Default `true` | [...?rtl=false](https://calendar.accelerate.sa?rtl=false) |
+| `language` | Change the language for month and day codes. | [...?language=ko-KR](https://calendar.accelerate.sa?language=ko-KR) |
+| `weekday_code` | Comma separated list of weekday codes. | [...?weekday_code=S,M,T,W,T,F,S](https://calendar.accelerate.sa?weekday_code=S,M,T,W,T,F,S) |
+| `month_code` | Comma separated list of month codes. | [...?month_code=J,F,M,A,M,J,J,A,S,O,N,D](https://calendar.accelerate.sa?month_code=J,F,M,A,M,J,J,A,S,O,N,D) |
+| `cell_height` | CSS parameter to alter cell height. | [...?cell_height=1.5em](https://calendar.accelerate.sa?cell_height=1.5em) |
+| `data` | Location of JSON data file. | [...?data=example/data.json](https://calendar.accelerate.sa?data=example/data.json) |
+| `help` | Show help screen  | [...?help](https://calendar.accelerate.sa?help) |
 
-Presets
----
+## Credits
 
-The above parameter list is versatile enough to provide many options for display. Below is an abbreviated list of presets that might be useful to people.
+- [Neatnik](https://neatnik.net/) - Original calendar concept
+- [abetusk/neatocal](https://github.com/abetusk/neatocal) - JavaScript port
 
-| Preset | Description |
-|---|---|
-| [Color and aligned](https://abetusk.github.io/neatocal?layout=aligned-weekdays&highlight_color=fee) | Calendar with aligned days and red highlighted weekends |
-| [Academic calendar](https://abetusk.github.io/neatocal?start_month=7) | An "academic calendar" that starts on Sept and runs through to August of the following year |
-| Half Page [left](https://abetusk.github.io/neatocal?n_month=6) and [right](https://abetusk.github.io/neatocal?start_month=6&n_month=6) calendars | Two half page (6 months) calendars |
-| [Non-highlighted calendar](https://abetusk.github.io/neatocal?highlight_color=fff) | Calendar without the weekend highlighting |
-| [Chinese month and day](https://abetusk.github.io/neatocal/?month_code=1%E6%9C%88,2%E6%9C%88,3%E6%9C%88,4%E6%9C%88,5%E6%9C%88,6%E6%9C%88,7%E6%9C%88,8%E6%9C%88,9%E6%9C%88,10%E6%9C%88,11%E6%9C%88,12%E6%9C%88&weekday_code=%E6%97%A5,%E4%B8%80,%E4%BA%8C,%E4%B8%89,%E5%9B%9B,%E4%BA%94,%E5%85%AD) | Calendar with (simplified) Chinese month and day abbreviations (thanks to [myway42](https://github.com/myway42/calendar)) |
-| [German month and day](https://abetusk.github.io/neatocal/?weekday_code=S,M,D,M,D,F,S&month_code=Jan,Feb,M%C3%A4r,Apr,Mai,Jun,Jul,Aug,Sep,Okt,Nov,Dez) | Calendar with German month and day abbreviations (thanks to [moontear](https://news.ycombinator.com/user?id=moontear)) |
-| [Turkish month and day](https://abetusk.github.io/neatocal/?year=2026&month_code=Oca,%C5%9Eub,Mar,N%C4%B0s,May,Haz,Tem,A%C4%9Fu,Eyl,Ek%C4%B0,Kas,Ara&weekday_code=Pz,Pt,S,%C3%87,Pe,Cu,Ct) | Calendar with Turkish month and day abbreviations |
-| [Two year calendar](https://abetusk.github.io/neatocal?n_month=24&layout=aligned-weekdays&start_day=0) | Two year single page calendar |
-
-Data File
----
-
-There is a data file option that can be used to provide parameters or text in the day cells.
-
-The format is:
-
-```
-{
-  "param" {
-    ...
-    "color_cell" : [
-      { "date":"YYYY-MM-DD", "color":"#rgb" },
-      ...
-      { "date":"YYYY-MM-DD", "color":"#rgb" }
-    ]
-  },
-  "YYYY-MM-DD" : "text",
-  ...
-  "YYYY-MM-DD" : "text"
-}
-```
-
-The file [example/data.json](example/data.json) provides an example:
-
-```
-{
-  "param": {
-    "year":2030,
-    "layout":"aligned-weekdays",
-    "cell_height": "2em"
-  },
-  "2030-03-21" : "The quick brown fox jumps over the lazy yellow dog",
-  "2030-01-30" : "Sphynx of black quartz, judge my vow",
-  "2030-06-01" : "Thule Worm-God of the Lords",
-  "2030-08-11" : "Swarms Matriarch",
-  "2030-10-20" : "Higher Dimension Being"
-}
-```
-
-
-The admissible parameters in the `"param" : {}` section have the same name as the URL parameters.
-If a parameter is specified in the data file, they will override any parameters provided in the URL.
-
-`color_cell` allows for individual cell highlighting ([example](https://abetusk.github.io/neatocal?data=example/sched.json)).
-See [example/sched.json](example/sched.json) for the example data file with the `color_cell` array.
-
-If the file is not present or isn't able to be parsed, the render will continue as the data file isn't present.
-
-
-Misc
----
-
-Neatnik's original repo has [since moved](https://neatnik.net/dispenser/?project=calendar) but the legacy GitHub repo can be found [here](https://neatnik.net/dispenser/?project=calendar).
-
-License
----
+## License
 
 MIT
